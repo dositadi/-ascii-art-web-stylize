@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ASCIIverse — The Art of Characters</title>
+    <link rel="stylesheet" href="/web/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
+</head>
+
+<body>
+
+    <!-- ══════════════════════════════════
+     NAVIGATION
+══════════════════════════════════ -->
+    <nav class="nav" aria-label="Main navigation">
+        <span class="nav-logo">ASCII<span>verse</span></span>
+        <input type="checkbox" id="nav-toggle" class="nav-toggle" hidden />
+        <label for="nav-toggle" class="nav-hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </label>
+        <ul class="nav-links">
+            <li><a href="#history" class="active">History</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#faq">FAQ</a></li>
+        </ul>
+        <a href="#about" class="nav-cta">Get Started</a>
+    </nav>
+
+
+    <!-- ══════════════════════════════════
+     HERO
+══════════════════════════════════ -->
+    <section class="hero" aria-label="Hero">
+        <div class="hero-content">
+            <div class="hero-tag">
+                <span class="hero-tag-dot" aria-hidden="true"></span>
+                Exploring Digital Heritage
+            </div>
+            <h1>The <em>Art</em> &amp; Science of<br />ASCII Characters</h1>
+            <p class="hero-desc">
+                Dive deep into the 128-character standard that shaped every computer, terminal, and digital
+                communication system on Earth — from 1960s mainframes to your screen right now.
+            </p>
+            <div class="hero-actions">
+                <a href="#history" class="btn-primary" aria-label="Explore ASCII history">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        aria-hidden="true">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                        <path d="M2 17l10 5 10-5" />
+                        <path d="M2 12l10 5 10-5" />
+                    </svg>
+                    Explore History
+                </a>
+                <a href="#about" class="btn-ghost">Meet the Team</a>
+            </div>
+            <div class="hero-stats">
+                <div>
+                    <div class="hero-stat-num">128</div>
+                    <div class="hero-stat-label">Characters</div>
+                </div>
+                <div>
+                    <div class="hero-stat-num">1963</div>
+                    <div class="hero-stat-label">Year Born</div>
+                </div>
+                <div>
+                    <div class="hero-stat-num">7-bit</div>
+                    <div class="hero-stat-label">Encoding</div>
+                </div>
+                <div>
+                    <div class="hero-stat-num">∞</div>
+                    <div class="hero-stat-label">Legacy</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-art" aria-label="ASCII art preview">
+            <div class="hero-art-label">ASCII Art Sample</div>
+            ___ ____ ____ ___ ___
+            / _ \ / ___| / ___||_ _|_ _|
+            | (_) |\___ \| | | | | |
+            \__,_| ___) | |___ | | | |
+            ||____/ \____||___|___|
+
+            ┌───────────────────────────┐
+            │ Dec Hex Char Name │
+            ├───────────────────────────┤
+            │ 32 20 SPC Space │
+            │ 65 41 A Latin A │
+            │ 97 61 a Latin a │
+            │ 126 7E ~ Tilde │
+            └───────────────────────────┘
+
+            0100 0001 → 0x41 → 'A'
+            0110 0001 → 0x61 → 'a'
+            0010 0000 → 0x20 → ' '
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════
+     TICKER
+══════════════════════════════════ -->
+    <div class="ticker" aria-hidden="true">
+        <div class="ticker-track">
+            <span class="ticker-item">ASCII <span class="ticker-sep">◆</span></span>
+            <span class="ticker-item">128 Characters <span class="ticker-sep">◆</span></span>
+            <span class="ticker-item">7-Bit Encoding <span class="ticker-sep">◆</span></span>
+            <span class="ticker-item">1963 Standard <span class="ticker-sep">◆</span></span>
+            <span class="ticker-item">Control Codes <span class="ticker-sep">◆</span></span>
+            <span class="ticker-item">Printable Chars <span class="ticker-sep">◆</span></span>
+            <span class="ticker-item">Unicode Parent <span class="ticker-sep">◆</span></span>
+            <span class="ticker-item">Digital DNA <span class="ticker-sep">◆</span></span>
+            <!-- repeat for seamless loop -->
+            <span class="ticker-item">ASCII <span class="ticker-sep">◆</span></span>
+            <span class="ticker-item">128 Characters <span class="ticker-sep">◆</span></span>
+            <span class="ticker-item">7-Bit Encoding <span class="ticker-sep">◆</span></span>
+            <span class="ticker-item">1963 Standard <span class="ticker-sep">◆</span></span>
+            <span class="ticker-item">Control Codes <span class="ticker-sep">◆</span></span>
+            <span class="ticker-item">Printable Chars <span class="ticker-sep">◆</span></span>
+            <span class="ticker-item">Unicode Parent <span class="ticker-sep">◆</span></span>
+            <span class="ticker-item">Digital DNA <span class="ticker-sep">◆</span></span>
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════
+     HISTORY SECTION
+══════════════════════════════════ -->
+    <section id="history" class="section history" aria-labelledby="history-title">
+        <div class="section-header reveal">
+            <div class="section-label">A Deep Dive</div>
+            <h2 class="section-title" id="history-title">The History of <em>ASCII</em></h2>
+            <p class="section-subtitle">
+                From telegraph-era encoding experiments to the invisible backbone of the modern internet —
+                the story of the American Standard Code for Information Interchange.
+            </p>
+        </div>
+
+        <div class="history-grid">
+            <!-- Sticky sidebar nav -->
+            <aside class="history-sticky" aria-label="Timeline navigation">
+                <ul class="timeline-nav">
+                    <li class="timeline-nav-item active">
+                        <span class="timeline-nav-year">1800s</span>
+                        Origins &amp; Telegraph
+                    </li>
+                    <li class="timeline-nav-item">
+                        <span class="timeline-nav-year">1963</span>
+                        Birth of ASCII
+                    </li>
+                    <li class="timeline-nav-item">
+                        <span class="timeline-nav-year">1967–77</span>
+                        Expansion Era
+                    </li>
+                    <li class="timeline-nav-item">
+                        <span class="timeline-nav-year">1980s</span>
+                        PC Revolution
+                    </li>
+                    <li class="timeline-nav-item">
+                        <span class="timeline-nav-year">1991+</span>
+                        Unicode &amp; Beyond
+                    </li>
+                    <li class="timeline-nav-item">
+                        <span class="timeline-nav-year">Today</span>
+                        Legacy &amp; Impact
+                    </li>
+                </ul>
+            </aside>
+
+            <!-- Main timeline -->
+            <div class="timeline">
+
+                <article class="timeline-entry reveal">
+                    <div class="timeline-dot" aria-hidden="true"></div>
+                    <div class="timeline-era">1830s – 1920s</div>
+                    <h3 class="timeline-heading">Origins in Morse &amp; Telegraph</h3>
+                    <p class="timeline-body">
+                        Long before computers existed, humans needed ways to encode language as electrical signals.
+                        Samuel Morse's 1838 telegraph code was an early ancestor — assigning variable-length
+                        dot-dash patterns to letters. Émile Baudot took this further in 1870 with a fixed
+                        5-bit code for teleprinters, which was eventually standardised as <strong>ITA2 (Murray
+                            Code)</strong>.
+                    </p>
+                    <p class="timeline-body">
+                        These systems planted the seed: characters could be reliably expressed as numeric codes
+                        that machines could transmit, store, and reproduce. The philosophical breakthrough was
+                        treating text as data.
+                    </p>
+                    <div class="timeline-quote">
+                        "Any sufficiently complex communication system eventually needs a codebook."<br />
+                        — Paraphrase of the engineering intuition that drove early telegraphy
+                    </div>
+                    <div class="tag-row">
+                        <span class="tag">Morse Code</span>
+                        <span class="tag">Baudot Code</span>
+                        <span class="tag">ITA2</span>
+                        <span class="tag">Telegraphy</span>
+                    </div>
+                </article>
+
+                <article class="timeline-entry reveal delay-1">
+                    <div class="timeline-dot" aria-hidden="true"></div>
+                    <div class="timeline-era">1960 – 1963</div>
+                    <h3 class="timeline-heading">The Birth of ASCII</h3>
+                    <p class="timeline-body">
+                        By the early 1960s, American computer manufacturers each used their own proprietary
+                        character codes — IBM's BCD, Burroughs, Univac and others all incompatible. The resulting
+                        chaos when machines needed to exchange data inspired the <strong>X3.2 subcommittee</strong> of
+                        the American Standards Association (now ANSI) to develop a universal standard.
+                    </p>
+                    <p class="timeline-body">
+                        On June 17, 1963, <strong>ASCII (American Standard Code for Information Interchange)</strong>
+                        was formally published. Its 7-bit design yielded exactly 128 code points:
+                        33 non-printing control characters and 95 printable characters — including all uppercase
+                        and lowercase Latin letters, digits 0–9, and 32 punctuation/symbol marks.
+                    </p>
+                    <div class="ascii-sample">0x00–0x1F Control characters (NUL, TAB, LF, CR …)
+                        0x20–0x2F Space ! " # $ % &amp; ' ( ) * + , - . /
+                        0x30–0x39 0 1 2 3 4 5 6 7 8 9
+                        0x41–0x5A A B C D … Z (uppercase)
+                        0x61–0x7A a b c d … z (lowercase)
+                        0x7F DEL</div>
+                    <p class="timeline-body">
+                        A particularly elegant design choice: the uppercase/lowercase pairs differ by only one
+                        bit (bit 5), making case-conversion a single bitwise operation. This kind of thoughtful
+                        engineering is why ASCII aged so gracefully.
+                    </p>
+                    <div class="tag-row">
+                        <span class="tag">ASA X3.2</span>
+                        <span class="tag">7-bit</span>
+                        <span class="tag">128 codes</span>
+                        <span class="tag">1963</span>
+                        <span class="tag">ANSI</span>
+                    </div>
+                </article>
+
+                <article class="timeline-entry reveal delay-2">
+                    <div class="timeline-dot" aria-hidden="true"></div>
+                    <div class="timeline-era">1967 – 1977</div>
+                    <h3 class="timeline-heading">Revisions &amp; Wider Adoption</h3>
+                    <p class="timeline-body">
+                        The 1967 revision introduced several critical changes: the backspace, delete, and escape
+                        characters were re-positioned, and importantly the tilde (~) and grave accent (`) were
+                        added. The US Department of Defense mandated ASCII for all government communications,
+                        accelerating adoption dramatically.
+                    </p>
+                    <p class="timeline-body">
+                        During this period ASCII spread from mainframes to minicomputers (DEC PDP series),
+                        early terminals (VT100), and printers. The <strong>RS-232 serial standard</strong>
+                        paired naturally with ASCII to define how terminals and computers communicated —
+                        a pairing that remained standard for decades.
+                    </p>
+                    <div class="tag-row">
+                        <span class="tag">ASCII-1967</span>
+                        <span class="tag">RS-232</span>
+                        <span class="tag">VT100</span>
+                        <span class="tag">DoD Mandate</span>
+                    </div>
+                </article>
+
+                <article class="timeline-entry reveal delay-1">
+                    <div class="timeline-dot" aria-hidden="true"></div>
+                    <div class="timeline-era">1980s</div>
+                    <h3 class="timeline-heading">The PC Revolution &amp; Extended ASCII</h3>
+                    <p class="timeline-body">
+                        IBM's Personal Computer (1981) brought ASCII to millions of homes. But ASCII's 128
+                        characters couldn't represent accented European letters, box-drawing characters for
+                        text UIs, or other symbols people wanted. IBM's solution: <strong>Code Page 437</strong>,
+                        which used the 8th bit (codes 128–255) for these extras.
+                    </p>
+                    <p class="timeline-body">
+                        This spawned dozens of competing "extended ASCII" code pages — CP437, CP850, Windows-1252,
+                        Latin-1 (ISO 8859-1), and more. Each worked fine within its region, but the proliferation
+                        of incompatible extensions was precisely the kind of fragmentation that ASCII had been
+                        designed to eliminate. The stage was set for Unicode.
+                    </p>
+                    <p class="timeline-body">
+                        Meanwhile, ASCII art emerged as a genuine creative discipline: bulletin board systems
+                        (BBS) featured elaborate text-mode graphics, demoscene artists pushed terminals to their
+                        limits, and ANSI art exploded in popularity.
+                    </p>
+                    <div class="ascii-sample">╔══════════════════╗
+                        ║ BBS WELCOME ART ║
+                        ║ .:. 1987 .:. ║
+                        ╚══════════════════╝
+                        ░░▒▒▓▓██████▓▓▒▒░░</div>
+                    <div class="tag-row">
+                        <span class="tag">IBM PC</span>
+                        <span class="tag">Code Page 437</span>
+                        <span class="tag">BBS Culture</span>
+                        <span class="tag">ANSI Art</span>
+                        <span class="tag">ISO 8859</span>
+                    </div>
+                </article>
+
+                <article class="timeline-entry reveal delay-2">
+                    <div class="timeline-dot" aria-hidden="true"></div>
+                    <div class="timeline-era">1991 – Present</div>
+                    <h3 class="timeline-heading">Unicode &amp; ASCII's Enduring Legacy</h3>
+                    <p class="timeline-body">
+                        Unicode 1.0, released in 1991, solved the globalisation problem by assigning unique
+                        code points to every character in every writing system on Earth. Crucially, Unicode
+                        was <strong>designed to be backward-compatible with ASCII</strong>: the first 128
+                        Unicode code points (U+0000 to U+007F) are identical to ASCII. UTF-8 — the dominant
+                        encoding of the web — encodes ASCII characters as single bytes, meaning pure ASCII
+                        files are also valid UTF-8.
+                    </p>
+                    <p class="timeline-body">
+                        Today, every programming language, every URL, every email header, every HTML document
+                        still rests on the ASCII foundation. C string literals, Unix file paths, HTTP headers,
+                        JSON keys — all ASCII. The standard turns 60+ years old and shows no sign of retirement.
+                    </p>
+                    <div class="timeline-quote">
+                        ASCII is the DNA of digital communication — invisible, universal, essential.
+                    </div>
+                    <div class="tag-row">
+                        <span class="tag">Unicode</span>
+                        <span class="tag">UTF-8</span>
+                        <span class="tag">Backward Compat</span>
+                        <span class="tag">Web Standard</span>
+                        <span class="tag">60+ Years</span>
+                    </div>
+                </article>
+
+            </div><!-- /timeline -->
+        </div><!-- /history-grid -->
+    </section>
+
+
+    <!-- ══════════════════════════════════
+     FEATURES STRIP
+══════════════════════════════════ -->
+    <section id="features" class="features-strip" aria-labelledby="features-title">
+        <div class="section-header reveal" style="max-width:560px;">
+            <div class="section-label" style="color:var(--color-accent)">What We Offer</div>
+            <h2 class="section-title" id="features-title" style="color:var(--color-text-on-dark)">
+                Explore ASCII <em style="color:var(--color-secondary)">Interactively</em>
+            </h2>
+            <p class="section-subtitle">Tools and resources to understand every corner of the standard.</p>
+        </div>
+        <div class="features-grid">
+
+            <div class="feature-card reveal delay-1">
+                <div class="feature-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <path d="M3 9h18M9 21V9" />
+                    </svg>
+                </div>
+                <div class="feature-title">Full Character Table</div>
+                <p class="feature-desc">Browse all 128 ASCII code points with decimal, hex, binary, and named
+                    descriptions.</p>
+            </div>
+
+            <div class="feature-card reveal delay-2">
+                <div class="feature-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="16 18 22 12 16 6" />
+                        <polyline points="8 6 2 12 8 18" />
+                    </svg>
+                </div>
+                <div class="feature-title">Encoder / Decoder</div>
+                <p class="feature-desc">Convert any text to ASCII codes or binary, and decode back instantly.</p>
+            </div>
+
+            <div class="feature-card reveal delay-3">
+                <div class="feature-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                </div>
+                <div class="feature-title">ASCII Art Generator</div>
+                <p class="feature-desc">Turn any text into stylised ASCII art using classic figlet fonts.</p>
+            </div>
+
+            <div class="feature-card reveal delay-1">
+                <div class="feature-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 6v6l4 2" />
+                    </svg>
+                </div>
+                <div class="feature-title">Historical Timeline</div>
+                <p class="feature-desc">Step through the evolution of character encoding from telegraphy to Unicode.</p>
+            </div>
+
+            <div class="feature-card reveal delay-2">
+                <div class="feature-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    </svg>
+                </div>
+                <div class="feature-title">Learning Guides</div>
+                <p class="feature-desc">Structured articles for beginners through to low-level systems programmers.</p>
+            </div>
+
+            <div class="feature-card reveal delay-3">
+                <div class="feature-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                </div>
+                <div class="feature-title">Community Gallery</div>
+                <p class="feature-desc">Showcase and explore ASCII art submitted by creators around the world.</p>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════
+     ABOUT / CONTRIBUTORS
+══════════════════════════════════ -->
+    <section id="about" class="section about" aria-labelledby="about-title">
+        <div class="section-header reveal">
+            <div class="section-label">About the Project</div>
+            <h2 class="section-title" id="about-title">Meet the <em>Contributors</em></h2>
+            <p class="section-subtitle">
+                ASCIIverse is built and maintained by two passionate contributors who believe the history
+                of computing deserves to be told beautifully.
+            </p>
+        </div>
+
+        <div class="contributors-grid">
+
+            <!-- Contributor 1 -->
+            <article class="contributor-card reveal delay-1">
+                <div class="contributor-image">
+                    <div class="contributor-avatar">
+                        <div class="avatar-circle" aria-hidden="true">
+                            <span class="avatar-initials">AO</span>
+                        </div>
+                        <pre class="avatar-ascii" aria-hidden="true">  .---.
+ /     \
+| o   o |
+|   ^   |
+ \ ___ /
+  '---'</pre>
+                    </div>
+                </div>
+                <div class="contributor-body">
+                    <div class="contributor-role">Lead Developer &amp; Researcher</div>
+                    <h3 class="contributor-name">Adaeze Okonkwo</h3>
+                    <div class="contributor-handle">@adaeze_codes</div>
+                    <p class="contributor-bio">
+                        Adaeze is a software engineer and computing historian with a passion for low-level systems.
+                        She built the encoder/decoder tools and wrote the deep-dive historical articles
+                        you'll find throughout the site. Previously at a Lagos fintech startup, now fulltime OSS.
+                    </p>
+                    <div class="contributor-skills">
+                        <span class="skill-chip">C / Assembly</span>
+                        <span class="skill-chip">Systems Programming</span>
+                        <span class="skill-chip">Technical Writing</span>
+                        <span class="skill-chip">Unicode</span>
+                    </div>
+                    <div class="contributor-links">
+                        <a href="#" class="contributor-link" aria-label="Adaeze GitHub profile">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+                            </svg>
+                            GitHub
+                        </a>
+                        <a href="#" class="contributor-link" aria-label="Adaeze Twitter profile">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path
+                                    d="M23.95 4.57a10 10 0 0 1-2.82.77 4.96 4.96 0 0 0 2.16-2.72c-.95.56-2 .96-3.12 1.19a4.92 4.92 0 0 0-8.38 4.49A13.96 13.96 0 0 1 1.64 3.16a4.92 4.92 0 0 0 1.52 6.57 4.9 4.9 0 0 1-2.23-.61v.06a4.92 4.92 0 0 0 3.95 4.83 4.94 4.94 0 0 1-2.22.08 4.93 4.93 0 0 0 4.6 3.42A9.87 9.87 0 0 1 0 19.54a13.94 13.94 0 0 0 7.55 2.21c9.06 0 14.01-7.5 14.01-14.01 0-.21 0-.42-.02-.63A10 10 0 0 0 24 4.59l-.05-.02z" />
+                            </svg>
+                            Twitter
+                        </a>
+                        <a href="#" class="contributor-link" aria-label="Adaeze personal site">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" aria-hidden="true">
+                                <circle cx="12" cy="12" r="10" />
+                                <path
+                                    d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                            </svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Contributor 2 -->
+            <article class="contributor-card reveal delay-2">
+                <div class="contributor-image">
+                    <div class="contributor-avatar">
+                        <div class="avatar-circle" aria-hidden="true">
+                            <span class="avatar-initials">KE</span>
+                        </div>
+                        <pre class="avatar-ascii" aria-hidden="true">  /\_/\
+ ( o.o )
+  > ^ <
+ /|   |\</pre>
+                    </div>
+                </div>
+                <div class="contributor-body">
+                    <div class="contributor-role">Designer &amp; Frontend Engineer</div>
+                    <h3 class="contributor-name">Kofi Enyonam</h3>
+                    <div class="contributor-handle">@kofi_enyonam</div>
+                    <p class="contributor-bio">
+                        Kofi is a UI/UX designer turned frontend engineer obsessed with typography and the
+                        aesthetics of data. He designed the ASCIIverse interface, built the ASCII art generator,
+                        and curates the community gallery. He's been creating ANSI art since the age of twelve.
+                    </p>
+                    <div class="contributor-skills">
+                        <span class="skill-chip">UI/UX Design</span>
+                        <span class="skill-chip">React / CSS</span>
+                        <span class="skill-chip">ANSI Art</span>
+                        <span class="skill-chip">Typography</span>
+                    </div>
+                    <div class="contributor-links">
+                        <a href="#" class="contributor-link" aria-label="Kofi GitHub profile">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+                            </svg>
+                            GitHub
+                        </a>
+                        <a href="#" class="contributor-link" aria-label="Kofi Dribbble profile">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" aria-hidden="true">
+                                <circle cx="12" cy="12" r="10" />
+                                <path
+                                    d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32" />
+                            </svg>
+                            Dribbble
+                        </a>
+                        <a href="#" class="contributor-link" aria-label="Kofi personal site">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" aria-hidden="true">
+                                <circle cx="12" cy="12" r="10" />
+                                <path
+                                    d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                            </svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- Get Started CTA -->
+        <div class="cta-center reveal">
+            <p>Ready to explore the world of ASCII?</p>
+            <a href="#history" class="btn-get-started" aria-label="Get started exploring ASCII">
+                Get Started
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    aria-hidden="true">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════
+     FAQ ACCORDION
+══════════════════════════════════ -->
+    <section id="faq" class="section faq" aria-labelledby="faq-title">
+        <div class="section-header reveal">
+            <div class="section-label" style="color:var(--color-accent)">Got Questions?</div>
+            <h2 class="section-title" id="faq-title">Frequently Asked</h2>
+            <p class="section-subtitle">Everything you need to know before diving in.</p>
+        </div>
+
+        <div class="faq-list" role="list">
+
+            <details class="faq-item reveal delay-1">
+                <summary>
+                    What exactly is ASCII and why does it matter?
+                    <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </summary>
+                <div class="faq-body">
+                    ASCII (American Standard Code for Information Interchange) is a 7-bit character encoding
+                    standard published in 1963. It maps 128 characters — letters, digits, punctuation, and
+                    control codes — to numbers 0 through 127. It matters because virtually every modern
+                    computer system, programming language, and network protocol is built on top of it.
+                    Unicode's first 128 code points mirror ASCII exactly.
+                </div>
+            </details>
+
+            <details class="faq-item reveal delay-2">
+                <summary>
+                    What's the difference between ASCII and Unicode?
+                    <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </summary>
+                <div class="faq-body">
+                    ASCII covers only 128 characters — primarily English text. Unicode is a superset covering
+                    over 140,000 characters from 150+ writing systems, emoji, mathematical symbols, and more.
+                    Unicode's UTF-8 encoding is backward-compatible: the first 128 code points are identical
+                    to ASCII and encoded as single bytes.
+                </div>
+            </details>
+
+            <details class="faq-item reveal delay-1">
+                <summary>
+                    Why does lowercase 'a' have a higher number than uppercase 'A'?
+                    <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </summary>
+                <div class="faq-body">
+                    It's intentional! Uppercase letters occupy codes 65–90 and lowercase 97–122.
+                    The difference is exactly 32, which is binary 0100000. This means toggling bit 5
+                    (the 6th bit from the right) flips between upper and lower case — a clever design
+                    that makes case conversion a single CPU instruction.
+                </div>
+            </details>
+
+            <details class="faq-item reveal delay-2">
+                <summary>
+                    What are control characters and are they still used?
+                    <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </summary>
+                <div class="faq-body">
+                    Control characters (codes 0–31 and 127) are non-printing codes originally designed
+                    to control teleprinters and terminals. Many are still in active use: NUL (0) terminates
+                    C strings, TAB (9) indents text, LF (10) and CR (13) end lines (Unix uses LF, Windows
+                    uses CR+LF), ESC (27) introduces terminal escape sequences, and BEL (7) can still
+                    beep a terminal.
+                </div>
+            </details>
+
+            <details class="faq-item reveal delay-1">
+                <summary>
+                    Is this project open source?
+                    <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </summary>
+                <div class="faq-body">
+                    Yes! ASCIIverse is fully open-source under the MIT license. All content, tools,
+                    and source code are available on GitHub. Contributions are warmly welcomed — whether
+                    that's fixing a typo, adding a historical entry, or building a new feature.
+                </div>
+            </details>
+
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════
+     NEWSLETTER
+══════════════════════════════════ -->
+    <section class="newsletter" aria-labelledby="newsletter-title">
+        <div class="newsletter-inner">
+            <div class="section-label" style="text-align:center">Stay in the Loop</div>
+            <h2 class="section-title reveal" id="newsletter-title" style="text-align:center">
+                Deep dives, straight to<br /><em>your inbox</em>
+            </h2>
+            <p>Monthly articles on character encoding, computing history, and ASCII art — no noise.</p>
+            <form class="newsletter-form" action="#" method="post" aria-label="Newsletter signup">
+                <label for="newsletter-email" class="sr-only">Email address</label>
+                <input type="email" id="newsletter-email" name="email" placeholder="you@example.com" required
+                    autocomplete="email" aria-label="Your email address" />
+                <button type="submit" aria-label="Subscribe to newsletter">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════
+     FOOTER
+══════════════════════════════════ -->
+    <footer aria-label="Site footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <span class="nav-logo">ASCII<span>verse</span></span>
+                <p>A living reference and creative space dedicated to the ASCII standard and the art it inspired.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Learn</h4>
+                <ul>
+                    <li><a href="#history">History</a></li>
+                    <li><a href="#history">Character Table</a></li>
+                    <li><a href="#history">Control Codes</a></li>
+                    <li><a href="#history">Extended ASCII</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Tools</h4>
+                <ul>
+                    <li><a href="#features">Encoder</a></li>
+                    <li><a href="#features">Art Generator</a></li>
+                    <li><a href="#features">Gallery</a></li>
+                    <li><a href="#features">Guides</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Project</h4>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#about">Contributors</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#faq">Open Source</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 ASCIIverse. Built with love and 128 characters.</p>
+            <div class="footer-social">
+                <a href="#" class="social-btn" aria-label="GitHub">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path
+                            d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+                    </svg>
+                </a>
+                <a href="#" class="social-btn" aria-label="Twitter">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path
+                            d="M23.95 4.57a10 10 0 0 1-2.82.77 4.96 4.96 0 0 0 2.16-2.72c-.95.56-2 .96-3.12 1.19a4.92 4.92 0 0 0-8.38 4.49A13.96 13.96 0 0 1 1.64 3.16a4.92 4.92 0 0 0 1.52 6.57 4.9 4.9 0 0 1-2.23-.61v.06a4.92 4.92 0 0 0 3.95 4.83 4.94 4.94 0 0 1-2.22.08 4.93 4.93 0 0 0 4.6 3.42A9.87 9.87 0 0 1 0 19.54a13.94 13.94 0 0 0 7.55 2.21c9.06 0 14.01-7.5 14.01-14.01 0-.21 0-.42-.02-.63A10 10 0 0 0 24 4.59l-.05-.02z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Screen reader only utility -->
+    <style>
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+
+</body>
+
+</html>
