@@ -12,6 +12,7 @@ type Handler struct {
 
 type HandlerService interface {
 	RenderHomePage(w http.ResponseWriter, r *http.Request) *models.Error
+	RenderAsciiPage(w http.ResponseWriter, r *http.Request) *models.Error
 	TransformAscii(w http.ResponseWriter, r *http.Request) *models.Error
 }
 
@@ -27,5 +28,11 @@ func (h *Handler) HomeHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Detail, http.StatusInternalServerError)
 		return
 	}
-	h.Service.TransformAscii(w, r)
+}
+
+func (h *Handler) AsciiPageHandler(w http.ResponseWriter, r *http.Request) {
+	if err := h.Service.RenderAsciiPage(w, r); err != nil {
+		http.Error(w, err.Detail, http.StatusInternalServerError)
+		return
+	}
 }

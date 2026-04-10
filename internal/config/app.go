@@ -19,11 +19,15 @@ func (a *App) InitializeRoute() {
 
 	a.Router = http.NewServeMux()
 	a.Router.HandleFunc("GET /home", handler.HomeHandler)
+	a.Router.HandleFunc("GET /home/ascii-art", handler.AsciiPageHandler)
 }
 
 func (a *App) InitializeFileServer() {
 	pageCSSFileServer := http.FileServer(http.Dir("web/static"))
 	a.Router.Handle("GET /web/static/", http.StripPrefix("/web/static/", pageCSSFileServer))
+
+	asciiPageFileServer := http.FileServer(http.Dir("web/templates"))
+	a.Router.Handle("GET /web/templates/", http.StripPrefix("/web/templates/", asciiPageFileServer))
 }
 
 func (a *App) Run() {

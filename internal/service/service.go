@@ -50,3 +50,29 @@ func (s *Service) RenderHomePage(w http.ResponseWriter, r *http.Request) *models
 	}
 	return nil
 }
+
+func (s *Service) RenderAsciiPage(w http.ResponseWriter, r *http.Request) *models.Error {
+	temp, err := template.New("index.html").ParseFiles("web/templates/index.html")
+	if err != nil {
+		return &models.Error{
+			Err:    "Server Error",
+			Detail: err.Error(),
+		}
+	}
+
+	asciiPageData := struct {
+		AsciiPageRoute string
+	}{
+		AsciiPageRoute: "/home/ascii-art",
+	}
+
+	err = temp.Execute(w, asciiPageData)
+	if err != nil {
+		return &models.Error{
+			Err:    "Server Error",
+			Detail: err.Error(),
+		}
+	}
+	return nil
+
+}
