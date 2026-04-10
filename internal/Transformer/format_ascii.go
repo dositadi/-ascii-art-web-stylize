@@ -19,7 +19,7 @@ func (t *Transformer) AsciiFormatter(asciiWords [][][]string) string {
 					if j != len(asciiWord)-1 {
 						formattedAsciiWord.WriteString(asciiWord[j][i])
 					} else {
-						
+						formattedAsciiWord.WriteString(asciiWord[j][i] + "\n")
 					}
 				} else {
 					formattedAsciiWord.WriteString(asciiWord[j][i])
