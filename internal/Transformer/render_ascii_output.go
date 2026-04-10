@@ -7,7 +7,7 @@ import (
 	"acad.learn2earn.ng/git/dositadi/ascii-art-web-stylize/pkg/models"
 )
 
-func (t *Transformer) RenderAsciiOutput(w http.ResponseWriter, formattedAscii string) *models.Error {
+func (t *Transformer) RenderAsciiOutput(w http.ResponseWriter, formattedAscii, font, width, lines string) *models.Error {
 	temp, err := template.New("ascii_output.html").ParseFiles("web/static/ascii_output.html")
 	if err != nil {
 		return &models.Error{
@@ -17,8 +17,16 @@ func (t *Transformer) RenderAsciiOutput(w http.ResponseWriter, formattedAscii st
 	}
 
 	asciiOutputData := struct {
-		FormattedAsciiText string
-	}{}
+		AsciiOutput string
+		Font        string
+		Width       string
+		Lines       string
+	}{
+		AsciiOutput: formattedAscii,
+		Font:        font,
+		Width:       width,
+		Lines:       lines,
+	}
 
 	if err = temp.ExecuteTemplate(w, "ascii-output", asciiOutputData); err != nil {
 		return &models.Error{

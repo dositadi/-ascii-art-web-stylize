@@ -17,7 +17,7 @@ type TransformAsciiText interface {
 	ConvertCharToAscii(latinWords []string, font string) [][][]string
 	AsciiFormatter(asciiWords [][][]string) string
 	ReadFont(char rune, font string) ([]string, *models.Error)
-	RenderAsciiOutput(w http.ResponseWriter, formattedAscii string) *models.Error
+	RenderAsciiOutput(w http.ResponseWriter, formattedAscii, font, width, lines string) *models.Error
 }
 
 func NewService() Service {

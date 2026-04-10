@@ -22,7 +22,7 @@ func (s *Service) TransformAscii(w http.ResponseWriter, r *http.Request) *models
 
 	fmt.Println(formattedAscii)
 
-	err = s.AsciiTransformer.RenderAsciiOutput(w, formattedAscii)
+	err = s.AsciiTransformer.RenderAsciiOutput(w, formattedAscii, "", "", "")
 	if err != nil {
 		return err
 	}
