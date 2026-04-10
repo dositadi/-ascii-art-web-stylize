@@ -20,6 +20,7 @@ func (a *App) InitializeRoute() {
 	a.Router = http.NewServeMux()
 	a.Router.HandleFunc("GET /home", handler.HomeHandler)
 	a.Router.HandleFunc("GET /home/ascii-art", handler.AsciiPageHandler)
+	a.Router.HandleFunc("POST /home/ascii-art", handler.LatinTransformToAscii)
 }
 
 func (a *App) InitializeFileServer() {

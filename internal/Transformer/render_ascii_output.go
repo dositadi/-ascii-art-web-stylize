@@ -28,10 +28,26 @@ func (t *Transformer) RenderAsciiOutput(w http.ResponseWriter, formattedAscii, f
 		Lines:       lines,
 	}
 
-	if err = temp.ExecuteTemplate(w, "ascii-output", asciiOutputData); err != nil {
-		return &models.Error{
-			Err:    "Unable to load page",
-			Detail: err.Error(),
+	asciiPageData := struct {
+		AsciiPageRoute string
+	}{
+		AsciiPageRoute: "/home/ascii-art",
+	}
+
+	if w.Header().Get("HX-Request") == "true" {
+		if err = temp.ExecuteTemplate(w, "ascii-output", asciiOutputData); err != nil {
+			return &models.Error{
+				Err:    "Unable to load page",
+				Detail: err.Error(),
+			}
+		}
+	} else {
+		err = temp.Execute(w, asciiPageData)
+		if err != nil {
+			return &models.Error{
+				Err:    "Server Error",
+				Detail: err.Error(),
+			}
 		}
 	}
 	return nil

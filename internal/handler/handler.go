@@ -36,3 +36,10 @@ func (h *Handler) AsciiPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func (h *Handler) LatinTransformToAscii(w http.ResponseWriter, r *http.Request) {
+	if err := h.Service.TransformAscii(w, r); err != nil {
+		http.Error(w, err.Detail, http.StatusInternalServerError)
+		return
+	}
+}

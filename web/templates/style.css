@@ -441,24 +441,26 @@ body {
 }
 
 /* checked state — driven by radio */
-#font-standard:checked~.controls-panel .font-option-standard,
+/* #font-standard:checked~.controls-panel .font-option-standard,
 #font-tinkertoy:checked~.controls-panel .font-option-tinkertoy,
 #font-shadow:checked~.controls-panel .font-option-shadow {
     background: rgba(82, 183, 136, 0.1);
     border-color: rgba(82, 183, 136, 0.45) !important;
     border-top: 1px solid rgba(82, 183, 136, 0.45) !important;
-}
+} */
 
 /* fix border collision on adjacent selected */
-.font-option-standard {
+/* .font-option-standard {
     border-radius: 10px 10px 0 0 !important;
 }
 
-.font-option-tinkertoy {}
+.font-option-tinkertoy {
+    
+}
 
 .font-option-shadow {
     border-radius: 0 0 10px 10px !important;
-}
+} */
 
 .font-radio-indicator {
     width: 18px;
@@ -478,12 +480,11 @@ body {
     width: 8px;
     height: 8px;
     border-radius: 9999px;
-    background: var(--color-accent);
     opacity: 0;
     transform: scale(0);
     transition: opacity 0.2s, transform 0.2s;
 }
-
+/* 
 #font-standard:checked~.controls-panel .font-option-standard .font-radio-indicator,
 #font-tinkertoy:checked~.controls-panel .font-option-tinkertoy .font-radio-indicator,
 #font-shadow:checked~.controls-panel .font-option-shadow .font-radio-indicator {
@@ -495,7 +496,7 @@ body {
 #font-shadow:checked~.controls-panel .font-option-shadow .font-radio-indicator::after {
     opacity: 1;
     transform: scale(1);
-}
+} */
 
 .font-info {
     flex: 1;
