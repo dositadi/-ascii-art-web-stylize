@@ -14,7 +14,7 @@ type App struct {
 }
 
 func (a *App) InitializeRoute() {
-	service := service.Service{}
+	service := service.NewService()
 	handler := handler.NewHandler(&service)
 
 	a.Router = http.NewServeMux()
@@ -30,7 +30,7 @@ func (a *App) Run() {
 	a.InitializeRoute()
 	a.InitializeFileServer()
 	server := http.Server{
-		Addr:    ":8082",
+		Addr:    ":8081",
 		Handler: a.Router,
 	}
 	fmt.Println("Server running at port 8082")

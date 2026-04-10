@@ -6,13 +6,13 @@ import (
 	"acad.learn2earn.ng/git/dositadi/ascii-art-web-stylize/pkg/models"
 )
 
-type Handler struct{
+type Handler struct {
 	Service HandlerService
 }
 
-type HandlerService interface{
+type HandlerService interface {
 	RenderHomePage(w http.ResponseWriter, r *http.Request) *models.Error
-
+	TransformAscii(w http.ResponseWriter, r *http.Request) *models.Error
 }
 
 func NewHandler(h HandlerService) Handler {
@@ -23,9 +23,9 @@ func NewHandler(h HandlerService) Handler {
 }
 
 func (h *Handler) HomeHandler(w http.ResponseWriter, r *http.Request) {
-	if err := h.Service.RenderHomePage(w,r); err != nil{
-		http.Error(w,err.Detail, http.StatusInternalServerError)
+	if err := h.Service.RenderHomePage(w, r); err != nil {
+		http.Error(w, err.Detail, http.StatusInternalServerError)
 		return
 	}
+	h.Service.TransformAscii(w, r)
 }
-
