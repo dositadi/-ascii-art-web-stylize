@@ -11,29 +11,13 @@
 </head>
 
 <body id="body" hx-boost="true">
-
-    <!--
-  ══════════════════════════════════════════
-  STATE INPUTS (must be BEFORE everything they control via ~ selector)
-  ══════════════════════════════════════════
--->
-    <!-- Font radios -->
-    <input type="radio" class="font-radio" name="font" id="font-standard" checked />
-    <input type="radio" class="font-radio" name="font" id="font-tinkertoy" />
-    <input type="radio" class="font-radio" name="font" id="font-shadow" />
-    <!-- Generate trigger checkbox -->
-    <input type="checkbox" class="gen-trigger-cb" id="gen-trigger" />
-
-
-    <!-- ══════════════════════════════════
-     HEADER
-══════════════════════════════════ -->
+    <!-- HEADER -->
     <header class="site-header">
         <div class="header-inner">
             <a href="index.html" class="logo" aria-label="ASCIIverse home">ASCII<span>verse</span></a>
             <div class="header-sep" aria-hidden="true"></div>
             <nav class="page-breadcrumb" aria-label="Breadcrumb">
-                <a href="index.html">Home</a>
+                <a hx-get="{{.HomePageRoute}}" hx-target="#body" hx-swap="innerHTML" hx-push-url="true">Home</a>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     aria-hidden="true">
                     <polyline points="9 18 15 12 9 6" />
@@ -53,7 +37,7 @@
                     </svg>
                     Docs
                 </a>
-                <a href="index.html" class="header-btn" aria-label="Go back to home">
+                <a hx-get="{{.HomePageRoute}}" hx-target="#body" hx-swap="innerHTML" hx-push-url="true" class="header-btn" aria-label="Go back to home">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         aria-hidden="true">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
@@ -112,7 +96,7 @@
                             Your Text
                         </label>
                         <div class="input-wrap">
-                            <textarea id="ascii-text" class="text-input" name="text" rows="3" maxlength="30"
+                            <textarea id="ascii-text" class="text-input" name="text" rows="3" maxlength="70"
                                 placeholder="Type something…&#10;e.g. Hello" aria-label="Text to convert to ASCII art"
                                 spellcheck="false" autocomplete="off"></textarea>
                             <span class="char-counter" aria-hidden="true">max 30</span>
@@ -270,238 +254,11 @@
                             <span class="step-chip"><span class="step-num">3</span> Generate</span>
                         </div>
                     </div>
+                </div>
             </section><!-- /output-panel -->
 
         </div><!-- /main-layout -->
     </main>
-
-
-    <!-- ══════════════════════════════════
-     CSS SIBLING SELECTORS FOR OUTPUT VISIBILITY
-     These must come AFTER the main layout in document flow
-     but the INPUTS are at the top of <body>
-     So we use a wrapper approach:
-     body > input#font-standard ~ main .output-result = doesn't work cross-element
-     Solution: move all state-dependent display rules here using body-level selectors
-══════════════════════════════════ -->
-    <style>
-        /*
-    Since radio inputs and output divs are siblings under <body>,
-    we target them with the general sibling combinator (~).
-
-    Structure:
-    body
-      input#font-standard   (radio)
-      input#font-tinkertoy  (radio)
-      input#font-shadow     (radio)
-      input#gen-trigger     (checkbox)
-      header
-      hero
-      main
-        .main-layout
-          aside.controls-panel  (font labels here)
-          section.output-panel
-            .output-area
-              .output-placeholder
-              #output-result-standard
-              #output-result-tinkertoy
-              #output-result-shadow
-
-    The radio/checkbox inputs ARE siblings of <header>, <main> etc.,
-    so we can use: #gen-trigger:checked ~ main .output-placeholder { display: none; }
-  */
-
-        /* When generate triggered — hide placeholder */
-        #gen-trigger:checked~main .output-placeholder {
-            display: none;
-        }
-
-        /* Show correct output block based on font + gen trigger */
-        #gen-trigger:checked~main #output-result-standard {
-            display: flex;
-        }
-
-        #gen-trigger:checked~main #output-result-tinkertoy {
-            display: none;
-        }
-
-        #gen-trigger:checked~main #output-result-shadow {
-            display: none;
-        }
-
-        #font-tinkertoy:checked~main #output-result-standard {
-            display: none !important;
-        }
-
-        #font-shadow:checked~main #output-result-standard {
-            display: none !important;
-        }
-
-        #gen-trigger:checked~main #output-result-tinkertoy {
-            display: none;
-        }
-
-        #gen-trigger:checked~main #output-result-shadow {
-            display: none;
-        }
-
-        /* Correct combinations: font + generate */
-        #font-standard:checked~* #gen-trigger:checked~main #output-result-standard {
-            display: flex;
-        }
-
-        /* Simpler approach — let's handle this definitively */
-        /* Default: gen triggered = show standard */
-        #gen-trigger:checked~main #output-result-standard {
-            display: flex;
-        }
-
-        /* If tinkertoy is checked AND gen triggered */
-        #font-tinkertoy:checked~* {
-            /* need gen-trigger too — but they're not nested, so we enumerate all states */
-        }
-
-        /*
-    CLEAN SOLUTION:
-    We put all three possible states explicitly.
-    The last matching rule wins in CSS.
-    Order: standard (default checked), then override if tinkertoy/shadow checked.
-  */
-
-        /* State A: standard font, generated */
-        #gen-trigger:checked~main #output-result-standard {
-            display: flex;
-        }
-
-        #gen-trigger:checked~main #output-result-tinkertoy {
-            display: none;
-        }
-
-        #gen-trigger:checked~main #output-result-shadow {
-            display: none;
-        }
-
-        /* State B: tinkertoy font selected */
-        #font-tinkertoy:checked~main #output-result-standard {
-            display: none !important;
-        }
-
-        #font-tinkertoy:checked~main #output-result-tinkertoy {
-            display: none;
-            /* off until gen */
-        }
-
-        /* tinkertoy + generated: we need BOTH conditions.
-     Since inputs are siblings of main, and gen-trigger comes AFTER font radios,
-     we can write: if font-tinkertoy is checked AND gen-trigger is checked.
-     CSS can't express AND across sibling selectors directly.
-     Workaround: use :has() — widely supported in 2024+ browsers */
-        main:has(~ *) {
-            /* not applicable here */
-        }
-
-        /* FINAL APPROACH: use :has() on body */
-        body:has(#font-standard:checked) #output-result-standard {
-            display: none;
-        }
-
-        body:has(#font-tinkertoy:checked) #output-result-tinkertoy {
-            display: none;
-        }
-
-        body:has(#font-shadow:checked) #output-result-shadow {
-            display: none;
-        }
-
-        body:has(#gen-trigger:checked) .output-placeholder {
-            display: none !important;
-        }
-
-        body:has(#gen-trigger:checked):has(#font-standard:checked) #output-result-standard {
-            display: flex !important;
-        }
-
-        body:has(#gen-trigger:checked):has(#font-tinkertoy:checked) #output-result-tinkertoy {
-            display: flex !important;
-        }
-
-        body:has(#gen-trigger:checked):has(#font-shadow:checked) #output-result-shadow {
-            display: flex !important;
-        }
-
-        /* Font option active styling via :has() */
-        body:has(#font-standard:checked) .font-option-standard {
-            background: rgba(82, 183, 136, 0.1) !important;
-            border-color: rgba(82, 183, 136, 0.45) !important;
-        }
-
-        body:has(#font-tinkertoy:checked) .font-option-tinkertoy {
-            background: rgba(82, 183, 136, 0.1) !important;
-            border-color: rgba(82, 183, 136, 0.45) !important;
-        }
-
-        body:has(#font-shadow:checked) .font-option-shadow {
-            background: rgba(82, 183, 136, 0.1) !important;
-            border-color: rgba(82, 183, 136, 0.45) !important;
-        }
-
-        /* Radio indicator filled state via :has() */
-        body:has(#font-standard:checked) .font-option-standard .font-radio-indicator {
-            border-color: var(--color-accent);
-        }
-
-        body:has(#font-tinkertoy:checked) .font-option-tinkertoy .font-radio-indicator {
-            border-color: var(--color-accent);
-        }
-
-        body:has(#font-shadow:checked) .font-option-shadow .font-radio-indicator {
-            border-color: var(--color-accent);
-        }
-
-        body:has(#font-standard:checked) .font-option-standard .font-radio-indicator::after {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        body:has(#font-tinkertoy:checked) .font-option-tinkertoy .font-radio-indicator::after {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        body:has(#font-shadow:checked) .font-option-shadow .font-radio-indicator::after {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* Toolbar chip */
-        .chip-standard,
-        .chip-tinkertoy,
-        .chip-shadow {
-            display: none;
-        }
-
-        body:has(#font-standard:checked) .chip-standard {
-            display: inline-block;
-        }
-
-        body:has(#font-tinkertoy:checked) .chip-tinkertoy {
-            display: inline-block;
-        }
-
-        body:has(#font-shadow:checked) .chip-shadow {
-            display: inline-block;
-        }
-
-        /* Generate button: pulse when gen is triggered */
-        body:has(#gen-trigger:checked) .generate-btn {
-            background: #3fa372;
-        }
-
-        body:has(#gen-trigger:checked) .generate-btn::before {
-            content: '✓ ';
-        }
-    </style>
-
 
     <!-- ══════════════════════════════════
      SAMPLE GALLERY
@@ -599,7 +356,7 @@ Yb   dP 88""   88""   88"""
 ══════════════════════════════════ -->
     <footer class="site-footer" aria-label="Page footer">
         <div class="footer-left">
-            <a href="index.html">← Back to ASCIIverse</a>
+            <a hx-get="{{.HomePageRoute}}" hx-target="#body" hx-swap="innerHTML" hx-push-url="true">← Back to ASCIIverse</a>
             &nbsp;·&nbsp; Art Generator v1.0
         </div>
         <div class="footer-right">

@@ -62,8 +62,10 @@ func (s *Service) RenderAsciiPage(w http.ResponseWriter, r *http.Request) *model
 
 	asciiPageData := struct {
 		AsciiPageRoute string
+		HomePageRoute  string
 	}{
 		AsciiPageRoute: "/home/ascii-art",
+		HomePageRoute:  "/home",
 	}
 
 	err = temp.Execute(w, asciiPageData)
@@ -74,5 +76,4 @@ func (s *Service) RenderAsciiPage(w http.ResponseWriter, r *http.Request) *model
 		}
 	}
 	return nil
-
 }

@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"net/http"
 	"slices"
 	"strconv"
@@ -12,8 +11,6 @@ import (
 func (s *Service) TransformAscii(w http.ResponseWriter, r *http.Request) *models.Error {
 	text := r.FormValue("text")
 	font := r.FormValue("font")
-
-	fmt.Println(text, font)
 
 	latinWords, err := s.AsciiTransformer.SplitText(text)
 	if err != nil {

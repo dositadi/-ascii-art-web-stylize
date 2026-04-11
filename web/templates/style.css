@@ -269,6 +269,13 @@ body {
     max-width: 520px;
 }
 
+@media (max-width: 480px) {
+    .hero-subtitle {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+}
+
 /* Decorative ASCII floating art */
 .hero-deco {
     position: absolute;
@@ -313,6 +320,9 @@ body {
 @media (max-width: 960px) {
     .main-layout {
         grid-template-columns: 1fr;
+        /* Release the desktop viewport-fill so stacked panels don't
+           force an unnaturally tall page on tablet/mobile */
+        min-height: unset;
     }
 }
 
@@ -523,6 +533,18 @@ body {
     white-space: pre;
     text-align: right;
     flex-shrink: 0;
+    overflow: hidden; /* prevent pre content bleeding on stacked full-width layout */
+    max-width: 72px;  /* cap the preview column width so it never crowds the font info */
+}
+
+@media (max-width: 480px) {
+    .font-preview-mini {
+        display: none; /* too little room on phones — the font name/desc is sufficient */
+    }
+
+    .font-option {
+        padding: 16px; /* larger touch target on phones */
+    }
 }
 
 /* ── Generate Button ────────────────────────────── */
@@ -544,6 +566,13 @@ body {
     letter-spacing: -0.01em;
     transition: background 0.2s, transform 0.15s;
     text-decoration: none;
+}
+
+@media (max-width: 480px) {
+    .generate-btn {
+        padding: 14px 20px;
+        font-size: 14px;
+    }
 }
 
 .generate-btn:hover {
@@ -715,6 +744,10 @@ details.tips-panel[open] .tips-chevron {
     background: var(--color-neutral);
     display: flex;
     flex-direction: column;
+    /* Hard ceiling on desktop side-by-side layout: panel never exceeds
+       the viewport height below the sticky header. */
+    max-height: calc(100vh - 64px);
+    overflow: hidden; /* children handle their own scroll */
 }
 
 /* Output toolbar */
@@ -799,10 +832,9 @@ details.tips-panel[open] .tips-chevron {
     color: var(--color-text-on-light);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 960px) {
     .output-toolbar {
-        padding: 12px 20px;
-        gap: 8px;
+        padding: 14px 24px;
     }
 }
 
@@ -812,13 +844,38 @@ details.tips-panel[open] .tips-chevron {
     padding: 32px;
     display: flex;
     flex-direction: column;
-    min-height: 400px;
+    min-height: 0;       /* critical: lets flex item shrink below its content size */
     position: relative;
+    /* Ensure HTMX-injected children (output-result) can grow to fill this container */
+    align-items: stretch;
+    overflow-y: auto;    /* vertical scroll if content grows taller than the panel */
 }
 
-@media (max-width: 640px) {
+/* On stacked layout the desktop max-height ceiling doesn't apply —
+   the hero + controls already consumed most of the viewport above.
+   Release it and let the ascii-output min-height govern the card size. */
+@media (max-width: 960px) {
+    .output-panel {
+        max-height: none;
+        overflow: visible;
+    }
+
     .output-area {
-        padding: 20px;
+        overflow-y: visible;
+        padding: 24px;
+    }
+}
+
+/* Further tighten for small phones — must come AFTER the 960px block
+   so it wins the cascade on narrow viewports */
+@media (max-width: 640px) {
+    .output-toolbar {
+        padding: 12px 20px;
+        gap: 8px;
+    }
+
+    .output-area {
+        padding: 16px;
     }
 }
 
@@ -834,6 +891,13 @@ details.tips-panel[open] .tips-chevron {
     padding: 48px 24px;
 }
 
+@media (max-width: 480px) {
+    .output-placeholder {
+        padding: 32px 16px;
+        gap: 12px;
+    }
+}
+
 .placeholder-art {
     font-family: 'Space Mono', monospace;
     font-size: 13px;
@@ -841,6 +905,14 @@ details.tips-panel[open] .tips-chevron {
     color: rgba(119, 141, 169, 0.35);
     white-space: pre;
     user-select: none;
+    overflow-x: hidden; /* clip decorative art rather than cause page scroll */
+    max-width: 100%;
+}
+
+@media (max-width: 480px) {
+    .placeholder-art {
+        font-size: 9px; /* scale down so the pre block fits narrow viewports */
+    }
 }
 
 .placeholder-heading {
@@ -891,72 +963,16 @@ details.tips-panel[open] .tips-chevron {
     font-weight: 700;
 }
 
-/* ── ASCII Output Pre Blocks ──────────────────── */
-/*
-      Strategy: Three full pre blocks (one per font) are always in the DOM.
-      They are hidden/shown via radio :checked state.
-      Each contains realistic multi-word ASCII art pre-rendered for the three fonts.
-      The "Generate" anchor link scrolls to the output area (CSS :target trick is
-      supplementary polish). The user types in the textarea, picks a font, clicks
-      Generate — the output block for that font becomes visible.
-    */
-
-.output-result {
-    display: none;
-    flex-direction: column;
-    gap: 0;
-    animation: fadeIn 0.35s ease both;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Show output block based on which font is selected AND generate was "triggered"
-       We use a hidden checkbox #gen-trigger to toggle between placeholder and output */
-.gen-trigger-cb {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-    width: 0;
-    height: 0;
-}
-
-/* When generate is triggered: hide placeholder, show correct output */
-#gen-trigger:checked~.output-panel .output-placeholder {
-    display: none;
-}
-
-#font-standard:checked~.output-panel #gen-trigger:checked~.output-result-standard,
-#font-tinkertoy:checked~.output-panel #gen-trigger:checked~.output-result-tinkertoy,
-#font-shadow:checked~.output-panel #gen-trigger:checked~.output-result-shadow {
-    display: flex;
-}
-
-/* Flat selector — the checkboxes are siblings of output-panel via body */
-/* We need a different structure: put everything inside body as siblings.
-       Radios → before controls-panel AND output-panel, both as siblings of body div */
-
-/* REVISED APPROACH:
-       All interactive state (radios + gen trigger) sit at body level.
-       output-panel and controls-panel are siblings of these inputs.
-       CSS adjacent/general sibling selectors control visibility.
-    */
-
 .output-pre-wrap {
     position: relative;
     background: var(--color-primary);
     border-radius: 12px;
     border: 1px solid rgba(119, 141, 169, 0.15);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex: 1;       /* grow to fill .output-result */
+    min-height: 0; /* allow shrinking — without this the pre can bust out of the panel */
 }
 
 .pre-toolbar {
@@ -993,6 +1009,12 @@ details.tips-panel[open] .tips-chevron {
     margin-left: 8px;
 }
 
+@media (max-width: 480px) {
+    .pre-filename {
+        display: none; /* reclaim toolbar space on very narrow screens */
+    }
+}
+
 .pre-copy-btn {
     margin-left: auto;
     display: flex;
@@ -1022,11 +1044,60 @@ details.tips-panel[open] .tips-chevron {
     font-family: 'Space Mono', monospace;
     font-size: clamp(9px, 1.3vw, 14px);
     line-height: 1.4;
-    color: var(--color-accent);
-    white-space: pre;
-    overflow-x: auto;
-    min-height: 200px;
+    color: var(--color-primary);
+    white-space: pre;           /* preserve ASCII art formatting */
+    overflow-x: auto;           /* horizontal scroll for wide/long output */
+    overflow-y: auto;           /* vertical scroll if output is very tall */
+    flex: 1;                    /* grow to fill the pre-wrap card */
+    min-height: 160px;          /* comfortable minimum before scrolling kicks in */
+    min-width: 0;               /* do not force the card wider than its container */
     tab-size: 4;
+    /* Custom scrollbar styling to match the design system */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(119, 141, 169, 0.4) transparent;
+}
+
+.ascii-output::-webkit-scrollbar {
+    height: 6px; /* horizontal track */
+    width: 6px;  /* vertical track */
+}
+
+.ascii-output::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.ascii-output::-webkit-scrollbar-thumb {
+    background: rgba(119, 141, 169, 0.35);
+    border-radius: 9999px;
+}
+
+.ascii-output::-webkit-scrollbar-thumb:hover {
+    background: var(--color-secondary);
+}
+
+@media (max-width: 960px) {
+    /* On stacked full-width layout, the pre no longer needs to fill a
+       constrained panel height — natural content height governs instead */
+    .ascii-output {
+        flex: unset;
+        min-height: 140px;
+        padding: 20px 20px 24px;
+    }
+
+    .output-pre-wrap {
+        flex: unset; /* no longer inside a capped flex column; size to content */
+        min-height: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .ascii-output {
+        padding: 16px;
+        min-height: 120px;
+        /* Slightly smaller font floor on phones to give more
+           horizontal room before scroll is needed */
+        font-size: clamp(8px, 2.8vw, 13px);
+    }
 }
 
 /* shadow font color tweak */
@@ -1047,6 +1118,13 @@ details.tips-panel[open] .tips-chevron {
     gap: 16px;
     padding: 16px 0 0;
     flex-wrap: wrap;
+}
+
+@media (max-width: 480px) {
+    .output-meta {
+        gap: 10px;
+        padding: 12px 0 0;
+    }
 }
 
 .meta-item {
@@ -1081,6 +1159,12 @@ details.tips-panel[open] .tips-chevron {
     margin-bottom: 40px;
 }
 
+@media (max-width: 640px) {
+    .gallery-header {
+        margin-bottom: 28px;
+    }
+}
+
 .gallery-label {
     font-size: 11px;
     font-weight: 500;
@@ -1105,32 +1189,73 @@ details.tips-panel[open] .tips-chevron {
 
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    /* 240px floor (down from 280px) prevents the grid from overflowing
+       on phones in the 320–360px width range */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
+}
+
+@media (max-width: 480px) {
+    .gallery-grid {
+        gap: 14px;
+    }
 }
 
 .gallery-card {
     border: 1px solid rgba(119, 141, 169, 0.15);
     border-radius: 12px;
-    overflow: hidden;
+    /* overflow:hidden would clip the pre's horizontal scroll — use overflow:visible
+       and let the pre handle its own overflow instead */
+    overflow: visible;
     background: rgba(255, 255, 255, 0.02);
     transition: border-color 0.2s, transform 0.2s;
+    /* Re-establish a clipping context just for the border-radius visual */
+    isolation: isolate;
 }
 
-.gallery-card:hover {
-    border-color: rgba(82, 183, 136, 0.4);
-    transform: translateY(-4px);
+/* Hover lift only fires on pointer:fine devices (mouse/trackpad).
+   On touch devices :hover is triggered by tap and causes a jarring jump. */
+@media (hover: hover) and (pointer: fine) {
+    .gallery-card:hover {
+        border-color: rgba(82, 183, 136, 0.4);
+        transform: translateY(-4px);
+    }
 }
 
 .gallery-card-pre {
     padding: 24px 20px;
     font-family: 'Space Mono', monospace;
+    /* On narrow stacked layouts 1.2vw of a full-width card is too small;
+       2.5vw scales better with the available card width */
     font-size: clamp(8px, 1.2vw, 11px);
     line-height: 1.4;
     white-space: pre;
-    overflow-x: auto;
+    overflow-x: auto; /* scroll — not clip — when art is wider than the card */
     color: var(--color-accent);
     border-bottom: 1px solid rgba(119, 141, 169, 0.12);
+    border-radius: 12px 12px 0 0; /* re-apply top radius since card is overflow:visible */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(119, 141, 169, 0.3) transparent;
+}
+
+.gallery-card-pre::-webkit-scrollbar {
+    height: 4px;
+}
+
+.gallery-card-pre::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.gallery-card-pre::-webkit-scrollbar-thumb {
+    background: rgba(119, 141, 169, 0.3);
+    border-radius: 9999px;
+}
+
+@media (max-width: 640px) {
+    .gallery-card-pre {
+        font-size: clamp(9px, 2.5vw, 11px);
+        padding: 16px;
+    }
 }
 
 .gallery-card-pre.shadow {
@@ -1171,13 +1296,22 @@ details.tips-panel[open] .tips-chevron {
     transition: gap 0.2s;
 }
 
-.gallery-try-btn:hover {
-    gap: 8px;
+/* Gap transition only makes sense with hover — guard it too */
+@media (hover: hover) and (pointer: fine) {
+    .gallery-try-btn:hover {
+        gap: 8px;
+    }
 }
 
 @media (max-width: 640px) {
     .gallery-section {
         padding: 48px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-section {
+        padding: 36px 16px;
     }
 }
 

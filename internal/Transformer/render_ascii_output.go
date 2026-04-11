@@ -1,6 +1,7 @@
 package transformer
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 
@@ -10,6 +11,7 @@ import (
 func (t *Transformer) RenderAsciiOutput(w http.ResponseWriter, formattedAscii, font, width, lines string) *models.Error {
 	temp, err := template.New("ascii_output.html").ParseFiles("web/static/ascii_output.html")
 	if err != nil {
+		fmt.Println("1", err.Error())
 		return &models.Error{
 			Err:    "Unable to load page",
 			Detail: err.Error(),
@@ -28,26 +30,11 @@ func (t *Transformer) RenderAsciiOutput(w http.ResponseWriter, formattedAscii, f
 		Lines:       lines,
 	}
 
-	asciiPageData := struct {
-		AsciiPageRoute string
-	}{
-		AsciiPageRoute: "/home/ascii-art",
-	}
-
-	if w.Header().Get("HX-Request") == "true" {
-		if err = temp.ExecuteTemplate(w, "ascii-output", asciiOutputData); err != nil {
-			return &models.Error{
-				Err:    "Unable to load page",
-				Detail: err.Error(),
-			}
-		}
-	} else {
-		err = temp.Execute(w, asciiPageData)
-		if err != nil {
-			return &models.Error{
-				Err:    "Server Error",
-				Detail: err.Error(),
-			}
+	if err = temp.ExecuteTemplate(w, "ascii-output", asciiOutputData); err != nil {
+		fmt.Println(err.Error())
+		return &models.Error{
+			Err:    "Unable to load page",
+			Detail: err.Error(),
 		}
 	}
 	return nil

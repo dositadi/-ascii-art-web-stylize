@@ -15,14 +15,10 @@ func (t *Transformer) AsciiFormatter(asciiWords [][][]string) string {
 		}
 		for i := 0; i < 8; i++ {
 			for j := 0; j < len(asciiWord); j++ {
-				if i < 8-1 {
-					if j != len(asciiWord)-1 {
-						formattedAsciiWord.WriteString(asciiWord[j][i])
-					} else {
-						formattedAsciiWord.WriteString(asciiWord[j][i] + "\n")
-					}
-				} else {
+				if j != len(asciiWord)-1 {
 					formattedAsciiWord.WriteString(asciiWord[j][i])
+				} else {
+					formattedAsciiWord.WriteString(asciiWord[j][i] + "\n")
 				}
 			}
 		}
