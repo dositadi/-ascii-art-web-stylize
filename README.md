@@ -105,15 +105,17 @@ ascii-art-web-stylize/
 │       └── models.go           # Shared data structures (e.g., ASCIIRequest)
 ├── web/
 │   ├── static/
-│   │   ├── ascii_output.html   # Static version of output page
-│   │   ├── index.html          # Static landing page
-│   │   └── style.css           # Global stylesheets
+|   |   ├── asset/
+|   |   |   ├── lajose_image.jpeg # Template-specific image asset
+|   |   |   ├── divine.jpeg       # Template-specific image asset
+│   │   ├── ascii_output.html     # Static version of output page
+│   │   ├── index.html            # Static landing page
+│   │   └── style.css             # Global stylesheets
 │   └── templates/
-│       ├── index.html          # Dynamic HTML template
-│       ├── lajose_image.jpeg   # Template-specific image asset
-│       └── style.css           # Template-specific stylesheet
-├── go.mod                      # Go module file
-└── README.md                   # Project documentation
+│       ├── index.html            # Dynamic HTML template
+│       └── style.css             # Template-specific stylesheet
+├── go.mod                        # Go module file
+└── README.md                     # Project documentation
 ```
 
 > **Note:** The exact structure may vary slightly depending on refactoring decisions made during development. The tree above represents the recommended organisation.
