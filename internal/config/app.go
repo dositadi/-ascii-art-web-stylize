@@ -38,7 +38,7 @@ func (a *App) Run() {
 		Addr:    ":8081",
 		Handler: a.Router,
 	}
-	fmt.Println("Server running at port 8082")
+	fmt.Println("Server running at port 8081")
 
 	log.Fatal(server.ListenAndServe())
 }
