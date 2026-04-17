@@ -20,6 +20,16 @@ EXPOSE 8081
 # Here we are building our go project into a binary file
 RUN CGO_ENABLED=0 GOOS=linux go build -o /ascii-art ./cmd/
 
-# This is our entry point from which we can run an instance of this image (container) in docker
-CMD [ "/ascii-art" ]
+# Stage 2
+FROM scratch
 
+WORKDIR /root/
+
+COPY --from=builder /ascii-art .
+
+COPY --from=builder /ascii-art-web-stylize/fonts /root/fonts
+
+COPY --from=builder /ascii-art-web-stylize/web /root/web
+
+# This is our entry point from which we can run an instance of this image (container) in docker
+CMD [ "./ascii-art" ]
