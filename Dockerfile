@@ -23,12 +23,16 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /ascii-art ./cmd/
 # Stage 2
 FROM scratch
 
+# Creating work directory in the scratch image
 WORKDIR /root/
 
+# Copying the build file from stage one (builder) to stage two (scratch image)
 COPY --from=builder /ascii-art .
 
+# Copying the the fonts directory from stage one (builder) to stage two (scratch image)
 COPY --from=builder /ascii-art-web-stylize/fonts /root/fonts
 
+# Copying the web directory from stage one (builder) to stage two (scratch image)
 COPY --from=builder /ascii-art-web-stylize/web /root/web
 
 # This is our entry point from which we can run an instance of this image (container) in docker
